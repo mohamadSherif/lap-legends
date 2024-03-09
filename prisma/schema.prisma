@@ -12,3 +12,26 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
+
+model Session {
+  id          Int       @id @default(autoincrement())
+  sessionId   String    @unique
+  name        String
+  drivers     Driver[]
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+}
+
+model Driver {
+  id          Int       @id @default(autoincrement())
+  privateId   String    @unique
+  displayName String?
+  bestLap     String?
+  bestLapTime String?
+  topSpeed    Float?
+  status      String
+  Session     Session   @relation(fields: [sessionId], references: [id])
+  sessionId   Int
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+}
