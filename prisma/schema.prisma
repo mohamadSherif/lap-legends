@@ -14,12 +14,16 @@ datasource db {
 }
 
 model Session {
-  id          Int       @id @default(autoincrement())
-  sessionId   String    @unique
-  name        String
-  drivers     Driver[]
-  createdAt   DateTime  @default(now())
-  updatedAt   DateTime  @updatedAt
+  id             Int      @id @default(autoincrement())
+  sessionId      String   @unique
+  name           String
+  isActive       Boolean  @default(true)
+  creatorId      String   
+  drivers        Driver[] @relation("SessionDrivers")
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+  creator        Driver   @relation("SessionCreator", fields: [creatorId], references: [privateId])
+
 }
 
 model Driver {
@@ -30,8 +34,8 @@ model Driver {
   bestLapTime String?
   topSpeed    Float?
   status      String
-  Session     Session   @relation(fields: [sessionId], references: [id])
-  sessionId   Int
+  sessions    Session[] @relation("SessionDrivers")
+  createdSessions Session[] @relation("SessionCreator")
   createdAt   DateTime  @default(now())
   updatedAt   DateTime  @updatedAt
 }

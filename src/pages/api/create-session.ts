@@ -8,6 +8,7 @@ const prisma = new PrismaClient();
 type RequestBody = {
   sessionName: string;
   privateId: string;
+  displayName: string;
 };
 
 // Define a type for the response data
@@ -23,23 +24,38 @@ export default async function handler(
   res: NextApiResponse<ResponseData>
 ) {
   if (req.method === 'POST') {
-    const { sessionName, privateId } = req.body as RequestBody;
+    const { sessionName, privateId, displayName } = req.body as RequestBody;
 
     // Generate a unique string for session ID
     const uniqueSessionId = Math.random().toString(36).substring(2, 8);
 
     try {
-      // Use Prisma to create a new session with an associated driver
+
+      // Check if a driver with the provided privateId exists
+      let driver = await prisma.driver.findUnique({
+        where: { privateId },
+      });
+
+      // If the driver does not exist, create a new driver record
+      if (!driver) {
+        driver = await prisma.driver.create({
+          data: {
+            privateId,
+            displayName,
+            status: 'Active',
+          },
+        });
+      }
+
+      // Create a new session with the provided sessionName and the driver's privateId
       const session = await prisma.session.create({
         data: {
           sessionId: uniqueSessionId,
           name: sessionName,
+          isActive: true,
+          creatorId: privateId,
           drivers: {
-            create: [{
-              privateId: privateId,
-              status: 'Active' // Assuming a default status
-              // Include other default fields if necessary
-            }],
+            connect: { privateId },
           },
         },
       });

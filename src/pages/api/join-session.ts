@@ -46,6 +46,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
         if (!session) {
           return res.status(404).json({ message: 'Session not found' });
+        } else if (!session.isActive) {
+          return res.status(400).json({ message: 'Session is not active' });
         }
 
         // Check if the driver already exists in this session
@@ -65,7 +67,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
               bestLapTime: data.BestLapTime.toString(),
               topSpeed: data.TopSpeed,
               status: 'OK',
-              Session: {
+              sessions: {
                 connect: {
                   id: session.id,
                 },
@@ -83,13 +85,26 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
               bestLapTime: data.BestLapTime.toString(),
               topSpeed: data.TopSpeed,
               status: 'OK',
-              // ... update any other relevant fields
             },
           });
         }
 
-        // Send back a success response
-        res.status(200).json({ message: 'Driver added to session successfully', driver });
+        // Add the driver to the session
+        await prisma.session.update({
+          where: {
+            id: session.id,
+          },
+          data: {
+            drivers: {
+              connect: {
+                privateId,
+              },
+            },
+          },
+        });
+
+        // Send back a success response with a list of drivers in the session
+        res.status(200).json({ message: 'Driver added to session successfully', session });
       } else {
         // If the driver's status is not 'OK' or user is not online, return an error message
         res.status(400).json({ message: 'Driver is offline or not available to join the session' });
