@@ -1,4 +1,4 @@
-// src/pages/api/join-session.ts
+// app/pages/api/join-session.ts
 import { PrismaClient } from '@prisma/client';
 import fetch from 'node-fetch'; // Make sure you have 'node-fetch' installed
 import type { NextApiRequest, NextApiResponse } from 'next';

@@ -1,4 +1,4 @@
-// pages/api/create-session.ts
+// app/pages/api/create-session.ts
 import { PrismaClient } from '@prisma/client';
 import type { NextApiRequest, NextApiResponse } from 'next';
 
