@@ -12,21 +12,13 @@ import {
     DialogTitle,
     DialogTrigger,
 } from "@/components/ui/dialog"
-import {
-    InputOTP,
-    InputOTPGroup,
-    InputOTPSeparator,
-    InputOTPSlot,
-} from "@/components/ui/input-otp"
 import { Input } from "@/components/ui/input"
-import { REGEXP_ONLY_DIGITS_AND_CHARS } from "input-otp"
 import { ActiveSessionCard } from "./active-session-card"
 
 export function JoinSession() {
 
-    const [isJoining, setIsJoining] = useState(true); // State to toggle between joining and creating a session
+    const [isJoining, setIsJoining] = useState(true); 
 
-    // Toggle function to switch between states
     const toggleSessionMode = () => {
         setIsJoining(!isJoining);
     };
@@ -46,25 +38,14 @@ export function JoinSession() {
                 </DialogHeader>
                 <div className="grid gap-4 py-4">
                     <div className="grid items-center">
-                        <InputOTP
-                            maxLength={6}
-                            className="mx-auto"
-                            pattern={REGEXP_ONLY_DIGITS_AND_CHARS}
-                            render={({ slots }) => (
-                                <InputOTPGroup>
-                                    {slots.map((slot, index) => (
-                                        <InputOTPSlot key={index} {...slot} />
-                                    ))}{" "}
-                                </InputOTPGroup>
-                            )}
-                        />
+                        <Input id="session-id" placeholder="session id" className="col-span-4" />
                     </div>
                     <div className="grid grid-cols-4 items-center gap-4">
                         <Input id="private-id" placeholder="private id" className="col-span-4" />
                     </div>
                 </div>
                 <DialogFooter>
-                        <Button onClick={toggleSessionMode} type="submit">Create</Button>
+                        <Button onClick={toggleSessionMode} type="submit">Join</Button>
                 </DialogFooter>
             </DialogContent>
             ) : (
@@ -76,6 +57,11 @@ export function JoinSession() {
                     </DialogDescription>
                 </DialogHeader>
                 <ActiveSessionCard />
+                <DialogFooter>
+                    <DialogClose>
+                        <Button type="submit">Join session</Button>
+                    </DialogClose>
+                </DialogFooter>
             </DialogContent>)}
 
         </Dialog>
