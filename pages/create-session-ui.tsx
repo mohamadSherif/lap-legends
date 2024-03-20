@@ -2,8 +2,10 @@
 
 import React, { useState } from 'react';
 import { Button } from "@/components/ui/button"
+import { useRouter } from 'next/navigation'
 import {
     Dialog,
+    DialogClose,
     DialogContent,
     DialogDescription,
     DialogFooter,
@@ -17,6 +19,7 @@ import { Label } from "@/components/ui/label"
 export function CreateSession() {
 
     const [isSessionExist, setIsCreating] = useState(true);
+    const router = useRouter()
 
     const toggleSessionMode = () => {
         setIsCreating(!isSessionExist);
@@ -46,6 +49,7 @@ export function CreateSession() {
             document.cookie = `displayName=${displayName.value}; `;
             document.cookie = `privateId=${privateId.value}; `;
             console.log(data);
+            router.push('/creator-page-ui')
         }
     }
 
@@ -72,14 +76,15 @@ export function CreateSession() {
                     </div>
                     <div className="grid grid-cols-2 items-center gap-2">
                         <Label htmlFor="private-id">Private ID</Label>
-                        <Input id="private-id" placeholder="00000000" className="col-span-4" />
+                        <Input type="number" id="private-id" placeholder="00000000" className="col-span-4" />
                     </div>
                 </div>
                 <DialogFooter>
-                    <Button onClick={createSession} type="submit">Start Session 🏁</Button>
+                    <DialogClose asChild>
+                        <Button onClick={createSession} type="submit">Start Session 🏁</Button>
+                    </DialogClose>
                 </DialogFooter>
             </DialogContent>
-
         </Dialog>
     )
 }

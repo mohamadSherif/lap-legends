@@ -19,7 +19,7 @@ const prisma = new PrismaClient();
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   if (req.method === 'POST') {
-    const { sessionId, privateId } = req.body;
+    const { sessionId, privateId, displayName } = req.body;
 
     // Replace <private-id> with the actual privateId and ensure the URL is correct
     const apiURL = `https://live.racerender.com/ViewData.php?ID=${encodeURIComponent(privateId)}`;
@@ -62,7 +62,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
           driver = await prisma.driver.create({
             data: {
               privateId,
-              displayName: 'Unknown', // Placeholder, replace with actual data if available
+              displayName: displayName,
               bestLap: data.BestLap.toString(),
               bestLapTime: data.BestLapTime.toString(),
               topSpeed: data.TopSpeed,
