@@ -56,7 +56,7 @@ export function JoinSession() {
     return (
         <Dialog>
             <DialogTrigger asChild>
-                <Button variant="secondary">Join Session</Button>
+                <Button className="rounded-full" variant="secondary">Join Session</Button>
             </DialogTrigger>
             {isJoining ? (
                 <DialogContent className="sm:max-w-[425px]">

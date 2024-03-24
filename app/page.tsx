@@ -2,7 +2,7 @@
 
 import * as React from "react"
 
-import Homepage from '@/pages/homepage'
+import Homepage from '@/pages/landing/homepage'
 
 
 export default function Home() {
