@@ -56,7 +56,7 @@ export function CreateSession() {
     return (
         <Dialog>
             <DialogTrigger asChild>
-                <Button>Create Session</Button>
+                <Button className="rounded-full">Create Session</Button>
             </DialogTrigger>
             <DialogContent className="sm:max-w-[425px]">
                 <DialogHeader>
@@ -81,7 +81,7 @@ export function CreateSession() {
                 </div>
                 <DialogFooter>
                     <DialogClose asChild>
-                        <Button onClick={createSession} type="submit">Start Session 🏁</Button>
+                        <Button className="rounded-full btn-lg" onClick={createSession} type="submit">Start Session 🏁</Button>
                     </DialogClose>
                 </DialogFooter>
             </DialogContent>

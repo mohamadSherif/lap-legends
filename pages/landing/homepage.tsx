@@ -5,8 +5,8 @@ import * as React from "react"
 import { Dialog } from '@headlessui/react'
 import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline'
 import { Button } from '@/components/ui/button'
-import { CreateSession } from './create-session-ui'
-import { JoinSession } from './join-session-ui'
+import { CreateSession } from './create/create-session-ui'
+import { JoinSession } from './join/join-session-ui'
 
 const navigation = [
   { name: 'Product', href: '#' },
@@ -136,7 +136,7 @@ export default function Homepage() {
               fugiat veniam occaecat fugiat aliqua.
             </p>
             <div className="mt-10 flex items-center justify-center gap-x-6">
-              <CreateSession />
+              <button className="btn">Button</button>
               <JoinSession />
             </div>
           </div>
